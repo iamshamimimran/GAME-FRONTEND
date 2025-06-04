@@ -1,7 +1,7 @@
 // const API_BASE_URL = "http://localhost:5000/api";
 const API_BASE_URL = "https://game-backend-iipb.onrender.com/api";
 
-export const createGameRoom = async (hostName, maxPlayers) => {
+export const createGameRoom = async (hostId, mcqSetId, maxPlayers) => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/create`, {
       method: "POST",
@@ -9,8 +9,8 @@ export const createGameRoom = async (hostName, maxPlayers) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        hostId: "683e956e14f3a6a1b157a8f9",
-        mcqSetId: "6839d4b74cd026a69fbab9f9", // You need to implement MCQ set selection
+        hostId,
+        mcqSetId,
         maxPlayers: parseInt(maxPlayers),
       }),
     });

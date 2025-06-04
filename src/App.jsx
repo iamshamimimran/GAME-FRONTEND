@@ -12,6 +12,7 @@ import GameOver from "./components/GameOver";
 import { useSocket } from "./context/SocketContext";
 import GenerateFromPdf from "./pages/GenerateFromPdf";
 import GenerateFromPrompt from "./pages/GenerateFromPrompt";
+import QuizLandingPage from "./pages/QuizLandingPage";
 
 const AppContent = () => {
   const { gameState } = useSocket();
@@ -43,7 +44,8 @@ function App() {
       <Router>
         <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
           <Routes>
-            <Route path="/" element={<AppContent />} />
+            <Route path="/game" element={<AppContent />} />
+            <Route path="/" element={<QuizLandingPage />} />
             <Route path="/g-pdf" element={<GenerateFromPdf />} />
             <Route path="/g-prompt" element={<GenerateFromPrompt />} />
           </Routes>

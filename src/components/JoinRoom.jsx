@@ -23,7 +23,7 @@ const JoinRoom = () => {
       // Emit to socket FIRST
       if (socket) {
         socket.emit("join-room", {
-          name: playerName, // 👈 FIXED: use `name` to match backend
+          name: playerName,
           roomCode: upperRoomCode,
         });
       } else {
@@ -36,8 +36,8 @@ const JoinRoom = () => {
       updateGameState({
         playerName,
         roomCode: upperRoomCode,
-        players: [], // let socket handle updating players list
-        maxPlayers: null, // will be set by the socket event
+        players: [],
+        maxPlayers: null,
       });
     } catch (error) {
       alert(error.message || "Failed to join room.");

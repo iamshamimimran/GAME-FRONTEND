@@ -26,7 +26,7 @@ const GenerateFromPdf = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/mcqs/generate/pdf",
+        "https://game-backend-iipb.onrender.com/api/mcqs/generate/pdf",
         formData,
         {
           headers: {
@@ -45,7 +45,7 @@ const GenerateFromPdf = () => {
   };
 
   return (
-    <div className="max-w-full mx-auto mt-10 p-6 bg-white shadow-xl rounded-2xl">
+    <div className="max-w-5xl mx-auto p-6 bg-white shadow-xl rounded-2xl">
       <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
         Generate MCQs from PDF
       </h2>

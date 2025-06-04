@@ -24,12 +24,12 @@ const PlayerWaitingRoom = () => {
         </div>
       </div>
 
-      <h3 className="text-xl font-bold mb-4">Players in Room</h3>
+      {/* <h3 className="text-xl font-bold mb-4">Players in Room</h3>
       <div className="player-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         {players.map((player, index) => (
           <PlayerCard key={index} player={player} isHost={index === 0} />
         ))}
-      </div>
+      </div> */}
 
       <Leaderboard players={players} />
 
