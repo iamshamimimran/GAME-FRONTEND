@@ -13,6 +13,7 @@ import { useSocket } from "./context/SocketContext";
 import GenerateFromPdf from "./pages/GenerateFromPdf";
 import GenerateFromPrompt from "./pages/GenerateFromPrompt";
 import QuizLandingPage from "./pages/QuizLandingPage";
+import PdfQnA from "./pages/PdfQnA";
 
 const AppContent = () => {
   const { gameState } = useSocket();
@@ -48,6 +49,7 @@ function App() {
             <Route path="/" element={<QuizLandingPage />} />
             <Route path="/g-pdf" element={<GenerateFromPdf />} />
             <Route path="/g-prompt" element={<GenerateFromPrompt />} />
+            <Route path="/pdf-QnA" element={<PdfQnA />} />
           </Routes>
         </div>
       </Router>

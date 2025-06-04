@@ -22,6 +22,9 @@ export default function QuizLandingPage() {
   const handlePrompt = () => {
     navigate("/g-prompt");
   };
+  const handleQnA = () => {
+    navigate("/pdf-QnA");
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white overflow-hidden">
       {/* Navigation */}
@@ -98,6 +101,13 @@ export default function QuizLandingPage() {
             >
               <Terminal className="h-6 w-6" />
               Question from PROMPT
+            </button>
+            <button
+              onClick={handleQnA}
+              className="bg-gradient-to-r from-pink-500 to-violet-500 hover:from-pink-600 hover:to-violet-600 px-8 py-4 rounded-full font-bold text-xl text-white shadow-2xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-3"
+            >
+              <Newspaper className="h-6 w-6" />
+              Q&A With PDF
             </button>
           </div>
 
