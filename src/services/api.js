@@ -1,4 +1,5 @@
-const API_BASE_URL = "http://localhost:5000/api";
+// const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://game-backend-iipb.onrender.com/api";
 
 export const createGameRoom = async (hostName, maxPlayers) => {
   try {
