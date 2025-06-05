@@ -31,7 +31,7 @@ const GenerateFromPdf = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/mcqs/generate/pdf",
+        "https://game-backend-iipb.onrender.com/api/mcqs/generate/pdf",
         formData,
         {
           headers: {

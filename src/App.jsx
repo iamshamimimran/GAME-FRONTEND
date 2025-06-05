@@ -14,6 +14,10 @@ import GenerateFromPdf from "./pages/GenerateFromPdf";
 import GenerateFromPrompt from "./pages/GenerateFromPrompt";
 import QuizLandingPage from "./pages/LandingPage";
 import PdfQnA from "./pages/PdfQnA";
+import QuizLibrary from "./pages/QuizLibrary";
+// import PDFUploader from "./pages/PDFUploader";
+import FileList from "./pages/FileList";
+import CreateFile from "./pages/CreateFile";
 
 const AppContent = () => {
   const { gameState } = useSocket();
@@ -43,6 +47,9 @@ function App() {
             <Route path="/g-pdf" element={<GenerateFromPdf />} />
             <Route path="/g-prompt" element={<GenerateFromPrompt />} />
             <Route path="/pdf-QnA" element={<PdfQnA />} />
+            <Route path="/quiz-library" element={<QuizLibrary />} />
+            <Route path="/library" element={<FileList />} />
+            <Route path="/create-files" element={<CreateFile />} />
           </Routes>
         </div>
       </Router>

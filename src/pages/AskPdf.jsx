@@ -94,10 +94,13 @@ const AskPdf = () => {
     ]);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/pdf/ask", {
-        question: input,
-        options,
-      });
+      const res = await axios.post(
+        "https://game-backend-iipb.onrender.com/api/pdf/ask",
+        {
+          question: input,
+          options,
+        }
+      );
 
       setMessages((prev) => [
         ...prev.slice(0, -1),
@@ -122,7 +125,7 @@ const AskPdf = () => {
     setMcqs([]);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/pdf/mcq-from-chat",
+        "https://game-backend-iipb.onrender.com/api/pdf/mcq-from-chat",
         mcqForm
       );
 

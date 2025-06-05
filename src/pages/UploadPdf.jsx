@@ -25,7 +25,10 @@ const UploadPdf = ({ onUploaded }) => {
     formData.append("file", file);
 
     try {
-      await axios.post("http://localhost:5000/api/pdf/upload", formData);
+      await axios.post(
+        "https://game-backend-iipb.onrender.com/api/pdf/upload",
+        formData
+      );
       onUploaded(true);
     } catch (error) {
       console.error("Upload error:", error);

@@ -18,7 +18,7 @@ const GenerateFromPrompt = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/mcqs/generate/prompt",
+        "https://game-backend-iipb.onrender.com/api/mcqs/generate/prompt",
         {
           prompt,
           difficulty,
