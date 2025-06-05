@@ -1,9 +1,11 @@
-// src/pages/GenerateFromPrompt.jsx
 import React, { useState } from "react";
 import axios from "axios";
-
+import Header from "./Header";
+// https://game-backend-iipb.onrender.com
 const GenerateFromPrompt = () => {
   const [prompt, setPrompt] = useState("");
+  const [difficulty, setDifficulty] = useState("");
+  const [numQuestions, setNumQuestions] = useState(5);
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -16,8 +18,12 @@ const GenerateFromPrompt = () => {
 
     try {
       const response = await axios.post(
-        "https://game-backend-iipb.onrender.com/api/mcqs/generate/prompt",
-        { prompt }
+        "http://localhost:5000/api/mcqs/generate/prompt",
+        {
+          prompt,
+          difficulty,
+          numQuestions,
+        }
       );
       setQuestions(response.data.questions);
     } catch (err) {
@@ -28,37 +34,83 @@ const GenerateFromPrompt = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white shadow-xl rounded-2xl">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-500">
-          Generate MCQs from Prompt
+    <>
+      <Header />
+      <div className="max-w-5xl mx-auto p-8 bg-white shadow-xl rounded-2xl mt-2">
+        <h1 className="text-4xl font-bold text-center mb-6 text-purple-600">
+          Create Custom Quiz
         </h1>
+        <p className="text-center text-gray-600 mb-6">
+          Generate MCQ quizzes from any topic using AI
+        </p>
 
-        <form onSubmit={handleSubmit} className="mb-6 space-y-4">
-          <textarea
-            className="w-full p-4 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows="5"
-            placeholder="Enter your topic or prompt..."
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            required
-          />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block mb-2 font-semibold text-gray-700">
+              Your Prompt
+            </label>
+            <textarea
+              className="w-full p-4 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              rows="4"
+              placeholder="Enter a brief prompt, e.g. 'World War II overview'"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              required
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              Enter a topic or concept you'd like to create a quiz about
+              (minimum 10 characters)
+            </p>
+          </div>
+
+          <div>
+            <label className="block mb-2 font-semibold text-gray-700">
+              Difficulty Level
+            </label>
+            <select
+              className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              required
+            >
+              <option value="">Select difficulty</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block mb-2 font-semibold text-gray-700">
+              Number of Questions (1-20)
+            </label>
+            <input
+              type="number"
+              min="1"
+              max="20"
+              className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              value={numQuestions}
+              onChange={(e) => setNumQuestions(e.target.value)}
+              required
+            />
+          </div>
+
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded text-white font-semibold transition"
+            className="w-full bg-gradient-to-r from-purple-400 to-pink-500 text-white py-3 rounded font-semibold hover:opacity-90 transition"
             disabled={loading}
           >
-            {loading ? "Generating..." : "Generate MCQs"}
+            {loading ? "Generating..." : "Generate MCQ"}
           </button>
         </form>
 
         {error && (
-          <div className="bg-red-500 text-white p-4 rounded mb-4">{error}</div>
+          <div className="bg-red-500 text-white p-4 rounded mt-4">{error}</div>
         )}
 
         {questions.length > 0 && (
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold mb-2 text-gray-700">
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold mb-4 text-gray-700">
               Generated MCQs:
             </h3>
             <ul className="space-y-4">
@@ -79,7 +131,7 @@ const GenerateFromPrompt = () => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
