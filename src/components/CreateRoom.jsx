@@ -58,7 +58,6 @@ const CreateRoom = () => {
       });
 
       socket.emit("host-join-room", { roomCode: room.roomCode });
-      window.open("_blank");
     } catch (error) {
       alert("❌ Failed to create room: " + (error.message || "Unknown error"));
     } finally {
