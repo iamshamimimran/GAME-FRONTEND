@@ -4,7 +4,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="bg-white sticky top-0 shadow-md">
+    <header className="bg-white sticky top-0 shadow-md z-50 w-full">
       <div className="container mx-auto flex items-center justify-between p-4">
         <div
           className="text-2xl font-bold cursor-pointer hover:text-red-300 transition-colors"
@@ -42,8 +42,26 @@ const Header = () => {
             className="px-4 py-2 rounded-lg hover:bg-indigo-700 hover:text-white transition-colors font-medium"
             onClick={() => navigate("/library")}
           >
-            Library
+            PDF Library
           </button>
+          <button
+            className="px-4 py-2 rounded-lg hover:bg-indigo-700 hover:text-white transition-colors font-medium"
+            onClick={() => navigate("/create")}
+          >
+            Game Library
+          </button>
+          <button
+            className="px-4 py-2 rounded-lg hover:bg-indigo-700 hover:text-white transition-colors font-medium"
+            onClick={() => navigate("/join")}
+          >
+            Join Game
+          </button>
+          {/* <button
+            className="px-4 py-2 rounded-lg hover:bg-indigo-700 hover:text-white transition-colors font-medium"
+            onClick={() => navigate("/summary-chapters")}
+          >
+            Summary & Chapters
+          </button> */}
         </nav>
       </div>
     </header>

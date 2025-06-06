@@ -1,57 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { useSocket } from "../context/SocketContext";
 import { createGameRoom } from "../services/api";
+import Header from "../pages/Header";
+import Loader from "./Loader";
 
 const CreateRoom = () => {
   const { socket, updateGameState } = useSocket();
-  const [maxPlayers, setMaxPlayers] = useState(4);
   const [mcqSets, setMcqSets] = useState([]);
-  const [selectedMcqSet, setSelectedMcqSet] = useState("");
   const [loading, setLoading] = useState(false);
+  const [maxPlayersBySet, setMaxPlayersBySet] = useState({});
+  const [fetchingMcqs, setFetchingMcqs] = useState(true); // New state for MCQ loading
 
-  // Decode token to get hostId
-  const getHostIdFromToken = () => {
-    const token = sessionStorage.getItem("token");
-    if (!token) return null;
-
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload._id;
-    } catch (err) {
-      console.error("Invalid token", err);
-      return null;
-    }
-  };
+  // Static hostId for now
+  const hostId = "683ed21d42694eec82216113";
 
   useEffect(() => {
     const fetchMcqs = async () => {
       try {
+        setFetchingMcqs(true);
         const res = await fetch(
           "https://game-backend-iipb.onrender.com/api/mcqs"
         );
         const data = await res.json();
         setMcqSets(data);
-        if (data.length > 0) setSelectedMcqSet(data[0]._id);
+
+        // Set default max players per set
+        const initialPlayers = {};
+        data.forEach((set) => {
+          initialPlayers[set._id] = 4;
+        });
+        setMaxPlayersBySet(initialPlayers);
       } catch (error) {
         console.error("Failed to fetch MCQ sets:", error);
+      } finally {
+        setFetchingMcqs(false);
       }
     };
 
     fetchMcqs();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!selectedMcqSet) return alert("Please select an MCQ set");
-
-    // const hostId = getHostIdFromToken();
-    const hostId = "683ed21d42694eec82216113";
+  const handleCreateRoom = async (mcqSetId) => {
     if (!hostId) return alert("Invalid or missing token. Please login again.");
 
-    setLoading(true);
-
+    setLoading(mcqSetId);
     try {
-      const response = await createGameRoom(hostId, selectedMcqSet, maxPlayers);
+      const maxPlayers = maxPlayersBySet[mcqSetId] || 4;
+      const response = await createGameRoom(hostId, mcqSetId, maxPlayers);
       const { room } = response;
 
       updateGameState({
@@ -63,6 +58,7 @@ const CreateRoom = () => {
       });
 
       socket.emit("host-join-room", { roomCode: room.roomCode });
+      window.open("_blank");
     } catch (error) {
       alert("❌ Failed to create room: " + (error.message || "Unknown error"));
     } finally {
@@ -70,49 +66,60 @@ const CreateRoom = () => {
     }
   };
 
+  if (fetchingMcqs) {
+    return (
+      <>
+        <Header />
+        <Loader />
+      </>
+    );
+  }
+
   return (
-    <div className="card bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-xl max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create Game Room</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-2 font-medium">Max Players</label>
-          <select
-            value={maxPlayers}
-            onChange={(e) => setMaxPlayers(Number(e.target.value))}
-            className="w-full p-3 rounded-lg bg-white/90 text-black"
-          >
-            {[2, 3, 4, 5, 6, 8, 10].map((num) => (
-              <option key={num} value={num}>
-                {num} Players
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label className="block mb-2 font-medium">Select MCQ Set</label>
-          <select
-            value={selectedMcqSet}
-            onChange={(e) => setSelectedMcqSet(e.target.value)}
-            className="w-full p-3 rounded-lg bg-white/90 text-black"
-          >
-            {mcqSets.map((set) => (
-              <option key={set._id} value={set._id}>
+    <>
+      <Header />
+      <div className="h-full bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mx-auto p-4">
+          {mcqSets.map((set) => (
+            <div
+              key={set._id}
+              className="bg-gray-400  backdrop-blur-md rounded-xl p-6 shadow-xl"
+            >
+              <h3 className="text-md uppercase font-semibold mb-2 ">
                 {set.sourceContent}
-              </option>
-            ))}
-          </select>
-        </div>
+              </h3>
+              <label className="block mb-2 italic text-sm">
+                Room With Max Players
+              </label>
+              <select
+                value={maxPlayersBySet[set._id]}
+                onChange={(e) =>
+                  setMaxPlayersBySet((prev) => ({
+                    ...prev,
+                    [set._id]: Number(e.target.value),
+                  }))
+                }
+                className="w-full p-3 rounded-lg bg-white/90 text-black mb-4"
+              >
+                {[2, 3, 4, 5, 6, 8, 10].map((num) => (
+                  <option key={num} value={num}>
+                    {num} Players
+                  </option>
+                ))}
+              </select>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-600 rounded-lg font-bold text-white hover:from-orange-600 hover:to-pink-700 transition-all disabled:opacity-50"
-        >
-          {loading ? "Creating Room..." : "Create Room"}
-        </button>
-      </form>
-    </div>
+              <button
+                onClick={() => handleCreateRoom(set._id)}
+                disabled={loading == set._id}
+                className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-600 rounded-lg font-bold text-white hover:from-orange-600 hover:to-pink-700 transition-all disabled:opacity-50"
+              >
+                {loading == set._id ? "Creating..." : "Create Room"}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

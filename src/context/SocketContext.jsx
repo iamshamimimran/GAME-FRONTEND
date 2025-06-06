@@ -27,6 +27,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const newSocket = io("https://game-backend-iipb.onrender.com");
+    // const newSocket = io("http://localhost:5000");
     setSocket(newSocket);
 
     // Event listeners

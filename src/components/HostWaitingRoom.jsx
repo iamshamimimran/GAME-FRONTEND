@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSocket } from "../context/SocketContext";
-import { Users, Play, Copy, Check, Wifi, Settings } from "lucide-react";
+import { Users, Play, Copy, Check, Wifi, Settings, Home } from "lucide-react";
 import Leaderboard from "./Leaderboard";
 
 const HostWaitingRoom = () => {
@@ -81,15 +81,21 @@ const HostWaitingRoom = () => {
     if (players.length >= maxPlayers) return "text-red-400";
     return "text-green-400";
   };
-
+  const handleClick = () => {
+    window.open("/create", "_blank");
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
-              <Settings className="w-6 h-6 text-white" />
+            <div
+              onClick={handleClick}
+              className="w-50 h-12 cursor-pointer text-white hover:text-black hover:bg-blue-400  bg-blue-300 rounded-full flex items-center justify-center backdrop-blur-sm"
+            >
+              <Home className="w-4 h-4 text-white" />
+              <span className="text-md ml-1.5">Create Another Room</span>
             </div>
             <h1 className="text-3xl font-bold text-white">Host Dashboard</h1>
           </div>

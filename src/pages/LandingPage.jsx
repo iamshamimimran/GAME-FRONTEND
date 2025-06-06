@@ -109,7 +109,7 @@ const LandingPage = () => {
 
             <div
               className="bg-gradient-to-r from-green-400 to-green-600 rounded-2xl p-8 text-white cursor-pointer"
-              onClick={() => navigate("/game")}
+              onClick={() => navigate("/")}
             >
               <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
                 <svg

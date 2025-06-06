@@ -1,5 +1,5 @@
 // src/App.jsx
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 
 import { SocketProvider } from "./context/SocketContext";
@@ -18,8 +18,10 @@ import QuizLibrary from "./pages/QuizLibrary";
 // import PDFUploader from "./pages/PDFUploader";
 import FileList from "./pages/FileList";
 import CreateFile from "./pages/CreateFile";
-
+import { useLocation } from "react-router";
 const AppContent = () => {
+  const location = useLocation();
+  const path = location.pathname;
   const { gameState } = useSocket();
   const { roomCode, isHost, players, currentQuestion, gameOver } = gameState;
 
@@ -28,12 +30,13 @@ const AppContent = () => {
   if (roomCode && isHost) return <HostWaitingRoom />;
   if (roomCode && players.length > 0) return <PlayerWaitingRoom />;
 
-  return (
-    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-      <CreateRoom />
-      <JoinRoom />
-    </div>
-  );
+  if (path === "/create") {
+    return <CreateRoom />;
+  }
+
+  if (path === "/join") {
+    return <JoinRoom />;
+  }
 };
 
 function App() {
@@ -42,7 +45,6 @@ function App() {
       <Router>
         <div className="min-h-screen">
           <Routes>
-            <Route path="/game" element={<AppContent />} />
             <Route path="/" element={<QuizLandingPage />} />
             <Route path="/g-pdf" element={<GenerateFromPdf />} />
             <Route path="/g-prompt" element={<GenerateFromPrompt />} />
@@ -50,6 +52,8 @@ function App() {
             <Route path="/quiz-library" element={<QuizLibrary />} />
             <Route path="/library" element={<FileList />} />
             <Route path="/create-files" element={<CreateFile />} />
+            <Route path="/join" element={<AppContent />} />
+            <Route path="/create" element={<AppContent />} />
           </Routes>
         </div>
       </Router>

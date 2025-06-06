@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSocket } from "../context/SocketContext";
+import Header from "../pages/Header";
 // import { joinGameRoom } from "../services/api";
 
 const JoinRoom = () => {
@@ -47,41 +48,49 @@ const JoinRoom = () => {
   };
 
   return (
-    <div className="card bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-xl max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-center">Join Game Room</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="form-group">
-          <label className="block mb-2 font-medium">Your Name</label>
-          <input
-            type="text"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            className="w-full p-3 rounded-lg bg-white/90 text-black"
-            placeholder="Enter your name"
-          />
-        </div>
+    <>
+      <div className="h-screen flex w-screen flex-col overflow-hidden  items-center bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700">
+        <Header />
 
-        <div className="form-group">
-          <label className="block mb-2 font-medium">Room Code</label>
-          <input
-            type="text"
-            value={roomCode}
-            onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-            maxLength={6}
-            className="w-full p-3 rounded-lg bg-white/90 text-black uppercase tracking-widest font-mono"
-            placeholder="Enter room code"
-          />
-        </div>
+        <div className="bg-white/10 backdrop-blur-md rounded-xl relative top-[22%] p-6 shadow-xl w-[27vw]  mx-auto">
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            Join Game Room
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="form-group">
+              <label className="block mb-2 font-medium">Your Name</label>
+              <input
+                type="text"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+                className="w-full p-3 rounded-lg bg-white/90 text-black"
+                placeholder="Enter your name"
+              />
+            </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-600 rounded-lg font-bold text-white hover:from-orange-600 hover:to-pink-700 transition-all disabled:opacity-50"
-        >
-          {loading ? "Joining Room..." : "Join Room"}
-        </button>
-      </form>
-    </div>
+            <div className="form-group">
+              <label className="block mb-2 font-medium">Room Code</label>
+              <input
+                type="text"
+                value={roomCode}
+                onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+                maxLength={6}
+                className="w-full p-3 rounded-lg bg-white/90 text-black uppercase tracking-widest font-mono"
+                placeholder="Enter room code"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-600 rounded-lg font-bold text-white hover:from-orange-600 hover:to-pink-700 transition-all disabled:opacity-50"
+            >
+              {loading ? "Joining Room..." : "Join Room"}
+            </button>
+          </form>
+        </div>
+      </div>
+    </>
   );
 };
 

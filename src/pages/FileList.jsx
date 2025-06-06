@@ -4,6 +4,7 @@ import FileCard from "../components/FileCard";
 import Header from "./Header";
 import { useNavigate } from "react-router";
 import { FaPlus } from "react-icons/fa";
+import Loader from "../components/Loader";
 const FileList = () => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +39,7 @@ const FileList = () => {
         </button>
 
         {loading ? (
-          <p>Loading...</p>
+          <Loader />
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {files.map((file) => (
