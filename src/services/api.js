@@ -23,7 +23,6 @@ export const createGameRoom = async (hostId, mcqSetId, maxPlayers) => {
   }
 };
 
-// src/services/api.js
 export const joinGameRoom = async (playerName, roomCode) => {
   try {
     const response = await fetch(`${API_BASE_URL}/game/join`, {
